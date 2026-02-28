@@ -1,0 +1,88 @@
+<html>
+<head>
+    <title>AG-UI Provider Settings</title>
+    <script type="module">
+        import { store } from "/components/plugins/plugin-settings-store.js";
+    </script>
+    <style>
+        .agui-cfg { font-family: system-ui, -apple-system, sans-serif; color: inherit; }
+        .agui-cfg-field { margin-bottom: 16px; }
+        .agui-cfg-label { display: block; font-size: 0.85em; font-weight: 500; margin-bottom: 4px; }
+        .agui-cfg-hint { font-size: 0.72em; opacity: 0.5; margin-top: 3px; }
+        .agui-cfg-input { width: 100%; padding: 7px 10px; border-radius: 6px; border: 1px solid color-mix(in srgb, currentColor 18%, transparent); background: color-mix(in srgb, currentColor 5%, transparent); color: inherit; font-size: 0.85em; font-family: 'SF Mono', 'Fira Code', monospace; box-sizing: border-box; }
+        .agui-cfg-input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px #6366f133; }
+        .agui-cfg-input::placeholder { opacity: 0.35; }
+        .agui-cfg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .agui-cfg-toggle { display: flex; align-items: center; gap: 8px; font-size: 0.85em; cursor: pointer; }
+        .agui-cfg-section { font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.4; margin: 20px 0 10px 0; padding-bottom: 4px; border-bottom: 1px solid color-mix(in srgb, currentColor 8%, transparent); }
+    </style>
+</head>
+<body>
+    <div x-data class="agui-cfg">
+        <template x-if="$store.pluginSettings && $store.pluginSettings.settings">
+            <div>
+                <!-- Network -->
+                <div class="agui-cfg-section">Network</div>
+
+                <div class="agui-cfg-row">
+                    <div class="agui-cfg-field">
+                        <label class="agui-cfg-label">Port</label>
+                        <input type="number" class="agui-cfg-input"
+                               x-model.number="$store.pluginSettings.settings.port"
+                               placeholder="8401" min="1024" max="65535" />
+                        <div class="agui-cfg-hint">Server listen port (requires restart)</div>
+                    </div>
+
+                    <div class="agui-cfg-field">
+                        <label class="agui-cfg-label">CORS Origins</label>
+                        <input type="text" class="agui-cfg-input"
+                               x-model="$store.pluginSettings.settings.cors_origins"
+                               placeholder="https://app.example.com" />
+                        <div class="agui-cfg-hint">Comma-separated origins, * for any, empty to disable</div>
+                    </div>
+                </div>
+
+                <div class="agui-cfg-field">
+                    <label class="agui-cfg-toggle">
+                        <input type="checkbox"
+                               x-model="$store.pluginSettings.settings.auto_start" />
+                        Auto-start server on first agent message
+                    </label>
+                </div>
+
+                <!-- Security -->
+                <div class="agui-cfg-section">Security</div>
+
+                <div class="agui-cfg-field">
+                    <label class="agui-cfg-label">Auth Token</label>
+                    <input type="text" class="agui-cfg-input"
+                           x-model="$store.pluginSettings.settings.auth_token"
+                           placeholder="Leave empty for no authentication" />
+                    <div class="agui-cfg-hint">Bearer token required in Authorization header. Empty = no auth.</div>
+                </div>
+
+                <!-- Limits -->
+                <div class="agui-cfg-section">Rate Limits</div>
+
+                <div class="agui-cfg-row">
+                    <div class="agui-cfg-field">
+                        <label class="agui-cfg-label">Max Concurrent Runs</label>
+                        <input type="number" class="agui-cfg-input"
+                               x-model.number="$store.pluginSettings.settings.max_concurrent_runs"
+                               placeholder="5" min="1" max="50" />
+                        <div class="agui-cfg-hint">Reject with 429 when exceeded</div>
+                    </div>
+
+                    <div class="agui-cfg-field">
+                        <label class="agui-cfg-label">Max Body Size (bytes)</label>
+                        <input type="number" class="agui-cfg-input"
+                               x-model.number="$store.pluginSettings.settings.max_body_size"
+                               placeholder="1048576" min="1024" />
+                        <div class="agui-cfg-hint">Request body limit (default 1 MB)</div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</body>
+</html>

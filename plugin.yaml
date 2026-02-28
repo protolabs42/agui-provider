@@ -1,0 +1,7 @@
+title: AG-UI Provider
+description: Expose Agent Zero as an AG-UI compatible agent server. Any CopilotKit or AG-UI frontend can connect and interact with your agents via streaming SSE.
+version: 0.1.0
+settings_sections:
+  - external
+per_project_config: false
+per_agent_config: false

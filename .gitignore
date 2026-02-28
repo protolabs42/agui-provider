@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.pyo
+.toggle-*
+config.json
+node_modules/
+.next/
+next-env.d.ts
